@@ -1,0 +1,4 @@
+#!/bin/bash
+#echo Location:http://www.arcai.com/netCut/s/
+sleep 5
+open -n -a "Google Chrome" --args '--new-window' "https://www.arcai.com/netCut/s"

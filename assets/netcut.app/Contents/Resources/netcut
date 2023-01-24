@@ -1,0 +1,36 @@
+#!/bin/bash
+#echo Location:http://www.arcai.com/netCut/s/
+
+echo "Netcut will NOT work under safari, if you don't have Google Chrome , please download Google Chrome"
+
+echo "Starting netCut, you will be asked to input password, it is for sudo as netCut need run at admin"
+echo "A Google Chrome browser should automaticly load https://arcai.com/netCut/s  . However if you don't see it load , you may open the browser and go to https://arcai.com/netCut/s"
+
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  TARGET="$(readlink "$SOURCE")"
+  if [[ $TARGET == /* ]]; then
+    echo "SOURCE '$SOURCE' is an absolute symlink to '$TARGET'"
+    SOURCE="$TARGET"
+  else
+    DIR="$( dirname "$SOURCE" )"
+    echo "SOURCE '$SOURCE' is a relative symlink to '$TARGET' (relative to '$DIR')"
+    SOURCE="$DIR/$TARGET" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+  fi
+done
+#echo "SOURCE is '$SOURCE'"
+RDIR="$( dirname "$SOURCE" )"
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+if [ "$DIR" != "$RDIR" ]; then
+  echo "DIR '$RDIR' resolves to '$DIR'"
+fi
+netcut="$DIR/aips.pl"
+
+homeurl="$DIR/home"
+
+$homeurl &
+
+#osascript -e "do shell script \"./netcut_mac\" with administrator privileges"
+osascript -e "do shell script \"$netcut  $* \" with administrator privileges" 
+
