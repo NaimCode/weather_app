@@ -13,9 +13,6 @@ import 'package:weather_app/bloc/bloc/city_weather_bloc.dart';
 import 'package:weather_app/model/location.dart';
 import 'package:weather_app/pages/home.dart';
 import 'package:weather_app/pages/locations_page.dart';
-import 'package:weather_app/pages/search_location.dart';
-import 'package:weather_app/pages/select_location.dart';
-import 'package:weather_app/pages/weathers_page.dart';
 import 'package:weather_app/repository/weather_repository.dart';
 
 void main() async {
@@ -26,7 +23,7 @@ void main() async {
   
   Hive.registerAdapter(LocationAdapter());
   var box = await Hive.openBox('location');
- // box.clear();
+  box.clear();
  //box.clear();
   if (box.isEmpty) {
     box.add(Location(
@@ -36,6 +33,21 @@ void main() async {
         // 10.99,
         name: "Rabat",
         id: 0));
+
+            box.add(Location(
+        lat: 35.7595,
+        // 44.34,
+        lon: -5.8340,
+        // 10.99,
+        name: "Tanger",
+        id: 2));
+            box.add(Location(
+        lat: 35.0035,
+        // 44.34,
+        lon: -5.9155,
+        // 10.99,
+        name: "Ksar kbire",
+        id: 3));
   }
   List<Location> locations = box.values.cast<Location>().toList();
 
@@ -66,13 +78,11 @@ class App extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: primary,
           ),
-          initialRoute: "/",
+          initialRoute: "/locations",
           getPages: [
-            GetPage(name: "/", page: () => const SelectLocation()),
+         //   GetPage(name: "/", page: () => const SelectLocation()),
             GetPage(name: "/locations", page: () => const LocationPage()),
-            GetPage(name: "/search_location", page: () => const SearchLocation()),
             GetPage(name: "/home", page: () => const Home()),
-             GetPage(name: "/weathers", page: () => const WeathersPage()),
           ],
         );
   },

@@ -26,14 +26,10 @@ class CityWeather {
 
   List<ListElement?> getToday() {
     int today = getDay(dt: currentWeather!.dt!);
-    return weather!.list!
-        .where((element) => getDay(dt: element!.dt!) == today)
-        .toList();
+    return [];
   }
     List<ListElement?> getTomorrow() {
     int today = getDay(dt: currentWeather!.dt!)+1;
-    return weather!.list!
-        .where((element) => getDay(dt: element!.dt!) == today)
-        .toList();
+    return [];
   }
 }

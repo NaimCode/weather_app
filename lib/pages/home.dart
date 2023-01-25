@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:weather_app/Config/theme.dart';
 import 'package:weather_app/bloc/bloc/city_weather_bloc.dart';
 import 'package:weather_app/model/city_weather.dart';
-import 'package:weather_app/widget/chart.dart';
 import 'package:weather_app/widget/layout_background.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -50,33 +49,25 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const Text('Weather Forecast'),
+        title: Text(cityWeather.currentWeather?.name??""),
         leading: IconButton(
             splashRadius: 25,
             onPressed: () => Get.back(result: false),
             icon: const Icon(
-              Icons.dashboard_outlined,
+              Icons.arrow_back_ios,
               color: Colors.white,
             )),
-        actions: [
-          IconButton(
-              splashRadius: 25,
-              onPressed: () => Get.back(result: true),
-              icon: const Icon(
-                Icons.delete_forever_rounded,
-                color: Colors.red,
-              )),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(0.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               width: double.infinity,
               margin: const EdgeInsets.all(20),
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              height: 250,
+              height: 300,
               decoration: BoxDecoration(
                   color: accent3,
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
@@ -160,50 +151,23 @@ class _HomeState extends State<Home> {
               ),
             ),
             const SizedBox(height: 0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "Aujourd'hui",
-                        style: TextStyle(color: Colors.amber),
-                      )),
-                  const SizedBox(width: 10),
-                  TextButton(
-                      onPressed: () => Get.toNamed("/weathers?type=tomorrow",
-                          arguments: cityWeather.getTomorrow()),
-                      child: const Text(
-                        "Demain",
-                        style: TextStyle(color: Colors.white),
-                      )),
-                  const SizedBox(width: 10),
-                  TextButton(
-                      onPressed: () => Get.toNamed("/weathers?type=5days",
-                          arguments: cityWeather.weather!.list!),
-                      child: const Text(
-                        "Prochain 5 jours",
-                        style: TextStyle(color: Colors.white),
-                      )),
-                  const SizedBox(width: 10)
-                ],
-              ),
-            ),
-            SizedBox(
-                height: 120,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: todayEls.length,
-                    itemBuilder: (context, index) =>
-                        WeatherItem(item: todayEls[index]))),
+
+            // Expanded(
+            //   child: GridView(
+            //     // Create a grid with 2 columns. If you change the scrollDirection to
+            //     // horizontal, this produces 2 rows.
+
+            //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //       crossAxisCount: 3,
+            //     ),
+            //     shrinkWrap: true,
+            //     children: [
+            //       for (var item in cityWeather.weather!.list!)
+            //         WeatherItem(item: item)
+            //     ],
+            //   ),
+            // ),
             const SizedBox(height: 20),
-            const Expanded(
-                child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: LineChartSample2(),
-            ))
           ],
         ),
       ),
@@ -219,8 +183,9 @@ class WeatherItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 100,
+      height: 80,
       padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(left: 20),
+      margin: const EdgeInsets.all( 5),
       decoration: BoxDecoration(
           color: accent3, borderRadius: BorderRadius.circular(20)),
       child: Column(

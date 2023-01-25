@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +28,7 @@ class _LocationPageState extends State<LocationPage> {
     CityWeatherState state = BlocProvider.of<CityWeatherBloc>(context).state;
     if (state is! CityWeatherData) {
       Get.back();
+      cities=[];
     } else {
       cities = [...state.cityWeathers];
     }
@@ -57,18 +57,9 @@ class _LocationPageState extends State<LocationPage> {
         elevation: 0,
         automaticallyImplyLeading: false,
         centerTitle: false,
-        title: const Text('Localités'),
+        title: const Text('Villes'),
       ),
-      floatingActionButton:FloatingActionButton(
-        backgroundColor:isLoading?Colors.transparent: primary,
-        foregroundColor: Colors.black,
-        tooltip: "Ajouter une nouvelle localité",
-        onPressed:isLoading?(){}: onAddLocation,
-        child:isLoading?SpinKitRing(
-                              color: primary,
-                              size: 30.0,
-                            ): const Icon(Icons.add),
-      ),
+      
       body: BlocListener<CityWeatherBloc, CityWeatherState>(
         listener: (context, state) {
 
@@ -124,9 +115,9 @@ class _LocationItemState extends State<LocationItem> {
       onTap:onRemoveLocation,
       child: Container(
         width: double.infinity,
-        margin: const EdgeInsets.all(15),
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        height: 160,
+        margin: const EdgeInsets.all(5),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        height: 180,
         decoration: BoxDecoration(
             color: accent3,
             borderRadius: const BorderRadius.all(Radius.circular(20))),
@@ -134,30 +125,25 @@ class _LocationItemState extends State<LocationItem> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+             Row(
+              children: [
+                Icon(
+                  Icons.location_on_outlined,
+                  size: 20,
+                  color: primary.withOpacity(.7),
+                ),
+                const SizedBox(width: 5),
+                Text(
+                  "${widget.item.currentWeather!.name!}, ${widget.item.currentWeather!.sys!.country!}",
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ],
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.access_time,
-                      color: Colors.blue.shade100,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      DateFormat.Hm().format(
-                          DateTime.fromMillisecondsSinceEpoch(
-                              (widget.item.currentWeather!.dt!) * 1000)),
-                      style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
+               
                 Text(
                   DateFormat.MMMMEEEEd().format(
                       DateTime.fromMillisecondsSinceEpoch(
@@ -195,19 +181,25 @@ class _LocationItemState extends State<LocationItem> {
               ],
             ),
             Row(
-              children: [
-                Icon(
-                  Icons.location_on_outlined,
-                  size: 20,
-                  color: primary.withOpacity(.7),
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.access_time,
+                      color: Colors.blue.shade100,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      DateFormat.Hm().format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              (widget.item.currentWeather!.dt!) * 1000)),
+                      style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 5),
-                Text(
-                  "${widget.item.currentWeather!.name!}, ${widget.item.currentWeather!.sys!.country!}",
-                  style: const TextStyle(color: Colors.white, fontSize: 14),
-                ),
-              ],
-            )
           ],
         ),
       ),
