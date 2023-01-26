@@ -75,6 +75,7 @@ class App extends StatelessWidget {
   
     return  GetMaterialApp(
           debugShowCheckedModeBanner: false,
+          
           theme: ThemeData(
             primarySwatch: primary,
           ),

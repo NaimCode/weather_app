@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: Text(cityWeather.currentWeather?.name??""),
+        title: Text(cityWeather.currentWeather?.name ?? ""),
         leading: IconButton(
             splashRadius: 25,
             onPressed: () => Get.back(result: false),
@@ -67,8 +67,8 @@ class _HomeState extends State<Home> {
               width: double.infinity,
               margin: const EdgeInsets.all(20),
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              height: 300,
-              decoration: BoxDecoration(
+              height: 360,
+              decoration:  BoxDecoration(
                   color: accent3,
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
               child: Column(
@@ -95,62 +95,76 @@ class _HomeState extends State<Home> {
                       ),
                     ],
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                          cityWeather.currentWeather!.main!.temp!
-                              .toStringAsFixed(0),
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 60,
-                              fontWeight: FontWeight.bold)),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(' °C',
-                            style: TextStyle(
-                                color: primary,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                      Expanded(child: Container()),
-                      Column(
+                  Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.network(
-                            getIcon(
-                                icon: cityWeather
-                                    .currentWeather!.weather![0]!.icon!),
-                            scale: 0.7,
-                          ),
-                          Text(
-                            cityWeather
-                                .currentWeather!.weather![0]!.description!,
-                            style: TextStyle(color: Colors.amber.shade100),
-                          )
-                        ],
-                      )
-                    ],
+                          children: [
+                            Text(
+                                cityWeather.currentWeather!.main!.temp!
+                                    .toStringAsFixed(0),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 100,
+                                    fontWeight: FontWeight.bold)),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Text(' °C',
+                                  style: TextStyle(
+                                      color: primary,
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        ),
+                        
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.network(
+                              getIcon(
+                                  icon: cityWeather
+                                      .currentWeather!.weather![0]!.icon!),
+                              scale: 0.4,
+                            ),
+                          
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.location_on_outlined,
-                        size: 20,
-                        color: primary.withOpacity(.7),
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        "${cityWeather.currentWeather!.name!}, ${cityWeather.currentWeather!.sys!.country!}",
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 14),
-                      ),
-                    ],
-                  )
+               
                 ],
               ),
             ),
-            const SizedBox(height: 0),
+            const SizedBox(height: 20),
+            Wrap(
+              children: [
+                Chip(
+                    label: Text(
+                        'Humidité: ${cityWeather.currentWeather!.main!.humidity} %')),
+                         Chip(
+                  
+                    label: Text(
+                        'Temp. Min: ${cityWeather.currentWeather!.main!.tempMin} C')),
+                          Chip(
+                  
+                    label: Text(
+                        'Temp. Max: ${cityWeather.currentWeather!.main!.tempMax} C')),
+                            Chip(
+                  
+                    label: Text(
+                        'Pression: ${cityWeather.currentWeather!.main!.pressure} %')),
+              ]
+                  .map((e) => Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: e,
+                      ))
+                  .toList(),
+            ),
 
             // Expanded(
             //   child: GridView(
@@ -185,7 +199,7 @@ class WeatherItem extends StatelessWidget {
       width: 100,
       height: 80,
       padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.all( 5),
+      margin: const EdgeInsets.all(5),
       decoration: BoxDecoration(
           color: accent3, borderRadius: BorderRadius.circular(20)),
       child: Column(
